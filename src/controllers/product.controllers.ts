@@ -97,14 +97,12 @@ export const deleteProduct = asyncHandler(async (req: any, res: Response) => {
  */
 export const createProduct = asyncHandler(async (req: any, res: Response) => {
   try {
-    const { name, price, brand, category, countInStock, description } = req.body;
+    const { name, price, brand, category, countInStock, description, image } = req.body;
 
-    if (!name || !price || !brand || !category || !countInStock || !description) {
+    if (!name || !price || !brand || !category || !countInStock || !description || !image) {
       res.status(404);
       throw new Error('Missing required fields');
     }
-
-    const image = '';
 
     const newProduct = Product.create({
       name,

@@ -101,12 +101,11 @@ exports.deleteProduct = (0, express_async_handler_1.default)((req, res) => __awa
  */
 exports.createProduct = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, price, brand, category, countInStock, description } = req.body;
-        if (!name || !price || !brand || !category || !countInStock || !description) {
+        const { name, price, brand, category, countInStock, description, image } = req.body;
+        if (!name || !price || !brand || !category || !countInStock || !description || !image) {
             res.status(404);
             throw new Error('Missing required fields');
         }
-        const image = '';
         const newProduct = product_model_1.Product.create({
             name,
             price,
