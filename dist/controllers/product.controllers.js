@@ -74,6 +74,7 @@ exports.getProductById = (0, express_async_handler_1.default)((req, res) => __aw
  * TODO: Add implementation to stop the deleting of a product
  */
 exports.deleteProduct = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const product = yield product_model_1.Product.findById(req.params.id);
         if (!product) {
@@ -81,9 +82,9 @@ exports.deleteProduct = (0, express_async_handler_1.default)((req, res) => __awa
             throw new Error('Product not found');
         }
         // Allow only the creator to delete the product they add
-        if (req.user._id !== product.user._id) {
+        if (req.user._id.toString() !== ((_a = product.user._id) === null || _a === void 0 ? void 0 : _a.toString())) {
             res.status(404);
-            throw new Error('Product not found');
+            throw new Error('You cannot remove this product');
         }
         yield product.deleteOne();
         res.send({ message: 'Product removed' });
@@ -106,7 +107,7 @@ exports.createProduct = (0, express_async_handler_1.default)((req, res) => __awa
             res.status(404);
             throw new Error('Missing required fields');
         }
-        const newProduct = product_model_1.Product.create({
+        const newProduct = yield product_model_1.Product.create({
             name,
             price,
             user: req.user._id,
@@ -121,7 +122,7 @@ exports.createProduct = (0, express_async_handler_1.default)((req, res) => __awa
             res.status(404);
             throw new Error('Product not created');
         }
-        res.status(201).json(newProduct);
+        res.status(201).send(newProduct);
     }
     catch (error) {
         throw new Error(error === null || error === void 0 ? void 0 : error.message);

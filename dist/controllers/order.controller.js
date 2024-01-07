@@ -28,7 +28,7 @@ exports.addOrderItems = (0, express_async_handler_1.default)((req, res) => __awa
             res.status(400);
             throw new Error('No order items');
         }
-        const createdOrder = order_model_1.Order.create({
+        const createdOrder = yield order_model_1.Order.create({
             orderItems,
             user: req.user._id,
             shippingAddress,
@@ -69,7 +69,7 @@ exports.getOrderById = (0, express_async_handler_1.default)((req, res) => __awai
 }));
 /**
  * @protected
- * Get request'
+ * Put request'
  * @route /api/orders/:id/pay
  * Use this to make payment
  */

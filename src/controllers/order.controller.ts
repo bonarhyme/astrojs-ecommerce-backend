@@ -17,7 +17,7 @@ export const addOrderItems = asyncHandler(async (req: any, res: Response) => {
       throw new Error('No order items');
     }
 
-    const createdOrder = Order.create({
+    const createdOrder = await Order.create({
       orderItems,
       user: req.user._id,
       shippingAddress,
@@ -62,7 +62,7 @@ export const getOrderById = asyncHandler(async (req: any, res: Response) => {
 
 /**
  * @protected
- * Get request'
+ * Put request'
  * @route /api/orders/:id/pay
  * Use this to make payment
  */

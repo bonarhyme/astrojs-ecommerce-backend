@@ -76,9 +76,9 @@ export const deleteProduct = asyncHandler(async (req: any, res: Response) => {
     }
 
     // Allow only the creator to delete the product they add
-    if (req.user._id !== product.user._id) {
+    if (req.user._id.toString() !== product.user._id?.toString()) {
       res.status(404);
-      throw new Error('Product not found');
+      throw new Error('You cannot remove this product');
     }
 
     await product.deleteOne();
@@ -104,7 +104,7 @@ export const createProduct = asyncHandler(async (req: any, res: Response) => {
       throw new Error('Missing required fields');
     }
 
-    const newProduct = Product.create({
+    const newProduct = await Product.create({
       name,
       price,
       user: req.user._id,
@@ -120,8 +120,7 @@ export const createProduct = asyncHandler(async (req: any, res: Response) => {
       res.status(404);
       throw new Error('Product not created');
     }
-
-    res.status(201).json(newProduct);
+    res.status(201).send(newProduct);
   } catch (error: any) {
     throw new Error(error?.message);
   }
